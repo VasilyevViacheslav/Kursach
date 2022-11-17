@@ -3,10 +3,64 @@
 #include <stdexcept>
 #include <GLFW/glfw3.h>
 #include <vector>
-class TriangleIntrsection
+class Triangle
 {
 public:
+	float x1, y1, x2, y2, x3, y3; // (x1,y1) - первая верщина ...
+	float mass;
+	float d12 = sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)); // Длинаа стороны с вершинами 1 и 2
+	float d23 = sqrt((x3 - x2) * (x3 - x2) + (y3 - y2) * (y3 - y2));// Длинаа стороны с вершинами 2 и 3
+	float d13 = sqrt((x3 - x1) * (x3 - x1) + (y3 - y1) * (y3 - y1));// Длинаа стороны с вершинами 1 и 3
+	float P = d12 + d23 + d13;  // Периметр 
+	float S = sqrt((P / 2) * ((P / 2) - d12) * ((P / 2) - d23) * ((P / 2) - d13)); // АПлощадь
+	float Destiny = mass / S; // Плотность
+	float x_CenterOfMass = ((x1 + x2 + x3) / 3); //Центр масс треугольника по х
+	float y_CenterOfMass = ((y1 + y2 + y3) / 3); //Центр масс треугольника по у
+	float height = 2 * S / d12; //Длинна высоты опущенной на сторону 1,2
+	float mInertia = d12 * pow(height, 3) / 12; //Момент инерции треугольника
 
+};
+class Kit_Triangle
+{
+	float mInertia = 0; //Момент инерции всего тела
+	float Kit_Mass = 0; // Масса фигуры
+	float SOfAllTriangles = 0; // Площадь всей фигуры
+	float AverageDesttiny = 0; // Плотность всей фигуры
+	float CenterMassKit_x = 0; // Центр масс фигуры по координате х
+	float CenterMassKit_y = 0; // Центр масс фигуры по координате y
+
+	std::vector<Triangle> Massive_Of_TRiangle; // Массив треугольников входящих в фигуру
+	Kit_Triangle(Triangle tr) //Контруктор 
+	{
+		Massive_Of_TRiangle.push_back(tr);
+		CenterMassKit_x = CenterMassKit_x; //Т.к треугольник первый можно взять его ц.Масс
+		CenterMassKit_y = CenterMassKit_y; 
+		Kit_Mass = tr.mass; //Т.к треугольник первый можно взять его массу
+		SOfAllTriangles = tr.S;//Т.к треугольник первый можно взять его площадь
+		AverageDesttiny = Kit_Mass / SOfAllTriangles;
+		mInertia = tr.mInertia;
+	}
+	~Kit_Triangle()
+	{
+		Massive_Of_TRiangle.clear();
+	}
+public:
+	void add_Triangle(Triangle tr) // Добавление треугольника
+	{
+		if (!Check) {
+			Massive_Of_TRiangle.push_back(tr); // Добавляем треугольник в конец массива
+			SOfAllTriangles += tr.S; //Площадь всей фигуры + площадь треугольника
+			AverageDesttiny = Kit_Mass / SOfAllTriangles; //Плотность общ масса/Общая площадь
+			CenterMassKit_x += (tr.x_CenterOfMass * tr.mass + CenterMassKit_x * Kit_Mass) / (Kit_Mass + tr.mass); //По формуле нахождения ц.Масс
+			CenterMassKit_y += (tr.y_CenterOfMass * tr.mass + CenterMassKit_y * Kit_Mass) / (Kit_Mass + tr.mass);
+			Kit_Mass += tr.mass;
+		}
+		else std::cout << "Пересекаются";
+	}
+
+
+
+	//Код для проверки пересечения с погрешностью eps
 	typedef std::pair<double, double> TriPoint;
 
 	inline double Det2D(TriPoint& p1, TriPoint& p2, TriPoint& p3)
@@ -35,8 +89,6 @@ public:
 	{
 		return Det2D(p1, p2, p3) < eps;
 	}
-
-
 
 	bool TriTri2D(TriPoint* t1,
 		TriPoint* t2,
@@ -75,68 +127,24 @@ public:
 
 		//The triangles collide
 		return true;
-	};
-
-};
-class Triangle:: TriangleIntrsection {};
-{
-	float x1, y1, x2, y2, x3, y3;
-	float mass;
-	float d12 = sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
-	float d23 = sqrt((x3 - x2) * (x3 - x2) + (y3 - y2) * (y3 - y2));
-	float d13 = sqrt((x3 - x1) * (x3 - x1) + (y3 - y1) * (y3 - y1));
-	float P = d12 + d23 + d13;
-	float S = sqrt((P / 2) * ((P / 2) - d12) * ((P / 2) - d23) * ((P / 2) - d13));
-	float Destiny = mass / S;
-	float x_CenterOfMass = ((x1 + x2 + x3) / 3);
-	float y_CenterOfMass = ((y1 + y2 + y3) / 3);
-	float height = 2 * S / d12;
-	float mInertia = d12 * pow(height, 3) / 12;
-
-};
-class Kit_Triangle :: public Triangle {};
-{
-	float mInertia = 0;
-	float Kit_Mass = 0;
-	float SOfAllTriangles = 0;
-	float AverageDesttiny = 0;
-	float CenterMassKit_x = 0;
-	float CenterMassKit_y = 0;
-
-	std::vector<Triangle> Massive_Of_TRiangle;
-	Kit_Triangle(Triangle tr)
-	{
-		Massive_Of_TRiangle.push_back(tr);
-		CenterMassKit_x += (tr.x_CenterOfMass * tr.mass + CenterMassKit_x * Kit_Mass) / (Kit_Mass + tr.mass);
-		CenterMassKit_y += (tr.y_CenterOfMass * tr.mass + CenterMassKit_y * Kit_Mass) / (Kit_Mass + tr.mass);
-		Kit_Mass += tr.mass;
-		SOfAllTriangles += tr.S;
-		AverageDesttiny = Kit_Mass / SOfAllTriangles;
-		mInertia += tr.mInertia;
 	}
-	~Kit_Triangle()
+	bool Check(std::vector<Triangle> massiveTr, Triangle Tr)//Функция проверки пересечния
 	{
-		Massive_Of_TRiangle.clear();
-	}
-public:
-	void add_Triangle(Triangle tr)
-	{
-		Massive_Of_TRiangle.push_back(tr);
-		SOfAllTriangles += tr.S;
-		AverageDesttiny = Kit_Mass / SOfAllTriangles;
-		CenterMassKit_x += (tr.x_CenterOfMass * tr.mass + CenterMassKit_x * Kit_Mass) / (Kit_Mass + tr.mass);
-		CenterMassKit_y += (tr.y_CenterOfMass * tr.mass + CenterMassKit_y * Kit_Mass) / (Kit_Mass + tr.mass);
-		Kit_Mass += tr.mass;
+		TriPoint t1[] = { TriPoint(Tr.x1,Tr.y1),TriPoint(Tr.x2,Tr.y2),TriPoint(Tr.x3,Tr.y3) }; //Треугольник который добавляем
+
+		for (int i = 0; i < Massive_Of_TRiangle.size(); ++i) // Проходим по массиву треугольников
+		{
+			TriPoint Tr[] =
+			{
+					TriPoint((double)Massive_Of_TRiangle[i].x1,(double)Massive_Of_TRiangle[i].y1),
+					TriPoint((double)Massive_Of_TRiangle[i].x2,(double)Massive_Of_TRiangle[i].y2),
+					TriPoint((double)Massive_Of_TRiangle[i].x3,(double)Massive_Of_TRiangle[i].y3) 
+			};
+			if (TriTri2D(t1, Tr)) return true;
+		}
+		return false;
 	}
 };
 
-/*
-* var t1 = new Triangle(new Tuple<double, double>(0.0, 0.0), new Tuple<double, double>(5.0, 0.0), new Tuple<double, double>(0.0, 5.0));
-  var t2 = new Triangle(new Tuple<double, double>(0.0, 0.0), new Tuple<double, double>(5.0, 0.0), new Tuple<double, double>(0.0, 6.0));
-  Console.WriteLine("{0} and\n{1}", t1, t2);
-  Overlap(t1, t2);
-  Console.WriteLine();
-
-*/
 
 
