@@ -1,9 +1,2 @@
-﻿Source.obj : error LNK2019: ссылка на неразрешенный внешний символ __imp__glClear@4 в функции _main.
-Source.obj : error LNK2019: ссылка на неразрешенный внешний символ _glfwInit в функции _main.
-Source.obj : error LNK2019: ссылка на неразрешенный внешний символ _glfwTerminate в функции _main.
-Source.obj : error LNK2019: ссылка на неразрешенный внешний символ _glfwCreateWindow в функции _main.
-Source.obj : error LNK2019: ссылка на неразрешенный внешний символ _glfwWindowShouldClose в функции _main.
-Source.obj : error LNK2019: ссылка на неразрешенный внешний символ _glfwPollEvents в функции _main.
-Source.obj : error LNK2019: ссылка на неразрешенный внешний символ _glfwMakeContextCurrent в функции _main.
-Source.obj : error LNK2019: ссылка на неразрешенный внешний символ _glfwSwapBuffers в функции _main.
-C:\Users\laris\source\repos\Kk\Debug\Kk.exe : fatal error LNK1120: неразрешенных внешних элементов: 8
+﻿  Source.cpp
+  Kk.vcxproj -> C:\Users\laris\source\repos\Kk\Debug\Kk.exe

@@ -6,30 +6,59 @@
 class Triangle
 {
 public:
-	float x1, y1, x2, y2, x3, y3; // (x1,y1) - первая верщина ...
-	float mass;
-	float d12 = sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)); // Длинаа стороны с вершинами 1 и 2
-	float d23 = sqrt((x3 - x2) * (x3 - x2) + (y3 - y2) * (y3 - y2));// Длинаа стороны с вершинами 2 и 3
-	float d13 = sqrt((x3 - x1) * (x3 - x1) + (y3 - y1) * (y3 - y1));// Длинаа стороны с вершинами 1 и 3
-	float P = d12 + d23 + d13;  // Периметр 
-	float S = sqrt((P / 2) * ((P / 2) - d12) * ((P / 2) - d23) * ((P / 2) - d13)); // АПлощадь
-	float Destiny = mass / S; // Плотность
-	float x_CenterOfMass = ((x1 + x2 + x3) / 3); //Центр масс треугольника по х
-	float y_CenterOfMass = ((y1 + y2 + y3) / 3); //Центр масс треугольника по у
-	float height = 2 * S / d12; //Длинна высоты опущенной на сторону 1,2
-	float mInertia = d12 * pow(height, 3) / 12; //Момент инерции треугольника
+	Triangle(double x1, double y1, double x2, double y2, double x3, double y3,double mass) 
+	{
+		this->x1 = x1;
+		this->x2 = x2;
+		this->x3 = x3;
+		this->y1 = y1;
+		this->y2 = y2;
+		this->y3 = y3;
+		this->mass = mass;
 
+		cons();
+	}
+public:
+	
+	double x1, y1, x2, y2, x3, y3; // (x1,y1) - первая верщина ...
+	double mass;
+	double d12 = sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)); // Длинаа стороны с вершинами 1 и 2
+	double d23 = sqrt((x3 - x2) * (x3 - x2) + (y3 - y2) * (y3 - y2));// Длинаа стороны с вершинами 2 и 3
+	double d13 = sqrt((x3 - x1) * (x3 - x1) + (y3 - y1) * (y3 - y1));// Длинаа стороны с вершинами 1 и 3
+	double P = d12 + d23 + d13;  // Периметр 
+	double S = sqrt((P / 2) * ((P / 2) - d12) * ((P / 2) - d23) * ((P / 2) - d13)); // АПлощадь
+	double Destiny = mass / S; // Плотность
+	double x_CenterOfMass = ((x1 + x2 + x3) / 3); //Центр масс треугольника по х
+	double y_CenterOfMass = ((y1 + y2 + y3) / 3); //Центр масс треугольника по у
+	double height = 2 * S / d12; //Длинна высоты опущенной на сторону 1,2
+	double mInertia = d12 * pow(height, 3) / 12; //Момент инерции треугольника
+	void cons()
+	{
+		 d12 = sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)); // Длинаа стороны с вершинами 1 и 2
+		 d23 = sqrt((x3 - x2) * (x3 - x2) + (y3 - y2) * (y3 - y2));// Длинаа стороны с вершинами 2 и 3
+		 d13 = sqrt((x3 - x1) * (x3 - x1) + (y3 - y1) * (y3 - y1));// Длинаа стороны с вершинами 1 и 3
+		 P = d12 + d23 + d13;  // Периметр 
+		 S = sqrt((P / 2) * ((P / 2) - d12) * ((P / 2) - d23) * ((P / 2) - d13)); // АПлощадь
+		 Destiny = mass / S; // Плотность
+		 x_CenterOfMass = ((x1 + x2 + x3) / 3); //Центр масс треугольника по х
+		y_CenterOfMass = ((y1 + y2 + y3) / 3); //Центр масс треугольника по у
+		 height = 2 * S / d12; //Длинна высоты опущенной на сторону 1,2
+		 mInertia = d12 * pow(height, 3) / 12; //Момент инерции треугольника
+
+	}
 };
 class Kit_Triangle
 {
-	float mInertia = 0; //Момент инерции всего тела
-	float Kit_Mass = 0; // Масса фигуры
-	float SOfAllTriangles = 0; // Площадь всей фигуры
-	float AverageDesttiny = 0; // Плотность всей фигуры
-	float CenterMassKit_x = 0; // Центр масс фигуры по координате х
-	float CenterMassKit_y = 0; // Центр масс фигуры по координате y
-
+public:
+	double mInertia = 0; //Момент инерции всего тела
+	double Kit_Mass = 0; // Масса фигуры
+	double SOfAllTriangles = 0; // Площадь всей фигуры
+	double AverageDesttiny = 0; // Плотность всей фигуры
+	double CenterMassKit_x = 0; // Центр масс фигуры по координате х
+	double CenterMassKit_y = 0; // Центр масс фигуры по координате y
+public:
 	std::vector<Triangle> Massive_Of_TRiangle; // Массив треугольников входящих в фигуру
+	Kit_Triangle() {};
 	Kit_Triangle(Triangle tr) //Контруктор 
 	{
 		Massive_Of_TRiangle.push_back(tr);
@@ -44,10 +73,9 @@ class Kit_Triangle
 	{
 		Massive_Of_TRiangle.clear();
 	}
-public:
-	void add_Triangle(Triangle tr) // Добавление треугольника
+public: 	void add_Triangle(Triangle tr) // Добавление треугольника
 	{
-		if (!Check) {
+		if (!Check(Massive_Of_TRiangle,tr)) {
 			Massive_Of_TRiangle.push_back(tr); // Добавляем треугольник в конец массива
 			SOfAllTriangles += tr.S; //Площадь всей фигуры + площадь треугольника
 			AverageDesttiny = Kit_Mass / SOfAllTriangles; //Плотность общ масса/Общая площадь
@@ -73,7 +101,7 @@ public:
 	void CheckTriWinding(TriPoint& p1, TriPoint& p2, TriPoint& p3, bool allowReversed)
 	{
 		double detTri = Det2D(p1, p2, p3);
-		if (detTri < 0.0)
+		if (detTri < 0.1)
 		{
 			if (allowReversed)
 			{
@@ -92,7 +120,7 @@ public:
 
 	bool TriTri2D(TriPoint* t1,
 		TriPoint* t2,
-		double eps = 0.0, bool allowReversed = false, bool onBoundary = true)
+		double eps = 0.3, bool allowReversed = false, bool onBoundary = true)
 	{
 		//Trangles must be expressed anti-clockwise
 		CheckTriWinding(t1[0], t1[1], t1[2], allowReversed);
@@ -132,13 +160,13 @@ public:
 	{
 		TriPoint t1[] = { TriPoint(Tr.x1,Tr.y1),TriPoint(Tr.x2,Tr.y2),TriPoint(Tr.x3,Tr.y3) }; //Треугольник который добавляем
 
-		for (int i = 0; i < Massive_Of_TRiangle.size(); ++i) // Проходим по массиву треугольников
+		for (size_t i = 0; i < Massive_Of_TRiangle.size(); ++i) // Проходим по массиву треугольников
 		{
 			TriPoint Tr[] =
 			{
-					TriPoint((double)Massive_Of_TRiangle[i].x1,(double)Massive_Of_TRiangle[i].y1),
-					TriPoint((double)Massive_Of_TRiangle[i].x2,(double)Massive_Of_TRiangle[i].y2),
-					TriPoint((double)Massive_Of_TRiangle[i].x3,(double)Massive_Of_TRiangle[i].y3) 
+					TriPoint(Massive_Of_TRiangle[i].x1,Massive_Of_TRiangle[i].y1),
+					TriPoint(Massive_Of_TRiangle[i].x2,Massive_Of_TRiangle[i].y2),
+					TriPoint(Massive_Of_TRiangle[i].x3,Massive_Of_TRiangle[i].y3)
 			};
 			if (TriTri2D(t1, Tr)) return true;
 		}
