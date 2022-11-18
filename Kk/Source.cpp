@@ -5,10 +5,10 @@ using namespace std;
 
 int main()
 {
-	double a = 0, s = 0, d = 1, f = 1, g = 1, h = 0;
+	double a = 0, s = 0, d = 5, f = 0, g = 0, h = 5;
 	Triangle First(a, s, d, f, g, h,10);
-	Triangle Second(0, 0, 1, 1, -1, 0,10);
+	Triangle Second(0, 0, -5, 0, 0, -6,10);
 	Kit_Triangle AB(First);
 	AB.add_Triangle(Second);
-	cout << 1;
+	cout<<AB.Get_mInertiea();
 }

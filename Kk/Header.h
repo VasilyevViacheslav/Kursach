@@ -100,8 +100,8 @@ public: 	void add_Triangle(Triangle tr) // Добавление треугольника
 
 	void CheckTriWinding(TriPoint& p1, TriPoint& p2, TriPoint& p3, bool allowReversed)
 	{
-		double detTri = Det2D(p1, p2, p3);
-		if (detTri < 0.1)
+		double detTri = Det2D(p1, p2, p3);//ПРоверка на очередность ввода координат
+		if (detTri < 0.0)
 		{
 			if (allowReversed)
 			{
@@ -172,6 +172,7 @@ public: 	void add_Triangle(Triangle tr) // Добавление треугольника
 		}
 		return false;
 	}
+	double Get_mInertiea() { return  mInertia; }
 };
 
 
